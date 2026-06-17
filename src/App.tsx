@@ -1,13 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import type { VocabularyEntry } from './types/VocabularyEntry'
 import { sampleWords } from './data/sampleWords'
+
+const EXPORT_QUEUE_KEY = 'nihongoKanjiHelper.exportQueue'
 
 function App() {
   // State for the romaji query input
   const [query, setQuery] = useState('')
   const [selectedEntry, setSelectedEntry] = useState<VocabularyEntry | null>(null)
-  const [exportQueue, setExportQueue] = useState<VocabularyEntry[]>([])
+  const [exportQueue, setExportQueue] = useState<VocabularyEntry[]>(() => {
+    if (typeof window === 'undefined') {
+      return []
+    }
+
+    try {
+      const stored = window.localStorage.getItem(EXPORT_QUEUE_KEY)
+      if (!stored) {
+        return []
+      }
+
+      const parsed = JSON.parse(stored)
+      if (!Array.isArray(parsed)) {
+        return []
+      }
+
+      return parsed.filter((item) =>
+        item && typeof item.kanji === 'string' && typeof item.readingKana === 'string' && typeof item.romaji === 'string' && typeof item.meaningEnglish === 'string' && typeof item.jlptLevel === 'string' && typeof item.exampleJapanese === 'string' && typeof item.exampleEnglish === 'string',
+      )
+    } catch {
+      return []
+    }
+  })
   const [queueMessage, setQueueMessage] = useState<string>('')
 
   // Normalize the query for case-insensitive comparison
@@ -35,6 +59,15 @@ function App() {
   const removeFromQueue = (kanji: string) => {
     setExportQueue(exportQueue.filter((item) => item.kanji !== kanji))
   }
+
+  // Save export queue to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(EXPORT_QUEUE_KEY, JSON.stringify(exportQueue))
+    } catch {
+      // Ignore storage errors in mobile browsers
+    }
+  }, [exportQueue])
 
   // Export queue as TSV
   const exportAsTSV = () => {
@@ -153,6 +186,9 @@ function App() {
       {exportQueue.length > 0 && (
         <section style={{ marginTop: 24, padding: 16, border: '1px solid #999', borderRadius: 8, background: '#f9f9f9' }}>
           <h2 style={{ marginTop: 0 }}>Export queue ({exportQueue.length})</h2>
+          <div style={{ fontSize: 12, color: '#666', marginBottom: 12 }}>
+            Saved locally on this device. Not synced.
+          </div>
 
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {exportQueue.map((entry) => (
