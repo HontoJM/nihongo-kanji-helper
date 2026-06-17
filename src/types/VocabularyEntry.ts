@@ -5,4 +5,6 @@ export type VocabularyEntry = {
   romaji: string
   meaningEnglish: string
   jlptLevel: string
+  exampleJapanese: string
+  exampleEnglish: string
 }

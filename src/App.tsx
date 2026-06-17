@@ -74,9 +74,8 @@ function App() {
           <div style={{ marginTop: 8 }}>
             <strong>Reading & Meaning:</strong> {selectedEntry.readingKana} — {selectedEntry.meaningEnglish}
           </div>
-          <div style={{ marginTop: 12, color: '#555' }}>
-            Example sentence will be generated later.
-          </div>
+          <div style={{ marginTop: 12, fontSize: 16 }}>{selectedEntry.exampleJapanese}</div>
+          <div style={{ marginTop: 8, color: '#555' }}>{selectedEntry.exampleEnglish}</div>
         </section>
       )}
     </div>
