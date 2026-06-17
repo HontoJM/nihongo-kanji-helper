@@ -38,23 +38,29 @@ function App() {
 
   // Export queue as TSV
   const exportAsTSV = () => {
-    const headers = ['Kanji', 'Reading & Meaning', 'Example']
     const rows = exportQueue.map((entry) => {
       const readingMeaning = `${entry.readingKana} — ${entry.meaningEnglish}`
       const example = `${entry.exampleJapanese}<br>→ ${entry.exampleEnglish}`
       return [entry.kanji, readingMeaning, example]
     })
 
-    const tsvContent = [
-      headers.join('\t'),
-      ...rows.map((row) => row.join('\t')),
-    ].join('\n')
+    // Export only card data, no header row
+    const tsvContent = rows.map((row) => row.join('\t')).join('\n')
+
+    // Generate timestamp in AAMMJJHHMM format (YYMMDDHHmm)
+    const now = new Date()
+    const year = String(now.getFullYear()).slice(-2)
+    const month = String(now.getMonth() + 1).padStart(2, '0')
+    const day = String(now.getDate()).padStart(2, '0')
+    const hour = String(now.getHours()).padStart(2, '0')
+    const minute = String(now.getMinutes()).padStart(2, '0')
+    const timestamp = `${year}${month}${day}${hour}${minute}`
 
     const blob = new Blob([tsvContent], { type: 'text/tab-separated-values' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-    link.download = 'anki-cards.tsv'
+    link.download = `anki-cards-${timestamp}.tsv`
     link.click()
     URL.revokeObjectURL(url)
   }

@@ -21,4 +21,6 @@ export const sampleWords: VocabularyEntry[] = [
   { id: 18, kanji: '飲む', readingKana: 'のむ', romaji: 'nomu', meaningEnglish: 'to drink', jlptLevel: 'N5', exampleJapanese: 'ジュースを飲みます。', exampleEnglish: 'I drink juice.' },
   { id: 19, kanji: '休む', readingKana: 'やすむ', romaji: 'yasumu', meaningEnglish: 'to rest; to be absent', jlptLevel: 'N4', exampleJapanese: '今日は仕事を休みます。', exampleEnglish: 'I will take a day off work today.' },
   { id: 20, kanji: '強い', readingKana: 'つよい', romaji: 'tsuyoi', meaningEnglish: 'strong', jlptLevel: 'N4', exampleJapanese: '彼は強い選手です。', exampleEnglish: 'He is a strong player.' },
+  { id: 21, kanji: '果てる', readingKana: 'はてる', romaji: 'hateru', meaningEnglish: 'to come to an end / to be exhausted / to be completed entirely', jlptLevel: 'N2', exampleJapanese: '長い旅がついに果てました。', exampleEnglish: 'The long journey finally came to an end.' },
+  { id: 22, kanji: '支配', readingKana: 'しはい', romaji: 'shihai', meaningEnglish: 'rule / control / domination', jlptLevel: 'N3', exampleJapanese: '王は国を支配していました。', exampleEnglish: 'The king ruled the country.' },
 ]
